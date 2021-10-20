@@ -3,15 +3,21 @@ package org.test;
 import org.junit.jupiter.api.*;
 import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.*;
+import org.openqa.selenium.support.ui.*;
 
 import java.io.*;
 import java.util.*;
+import java.util.concurrent.*;
+
+import static org.hamcrest.MatcherAssert.*;
+import static org.hamcrest.Matchers.*;
 
 public class LoginTest {
 	@BeforeAll
 	public static void setUp() {
 		config = getConfig();
 		driver = initializeWebDriver();
+		loginPage = new LoginPage(driver);
 	}
 
 	@AfterAll
@@ -19,8 +25,21 @@ public class LoginTest {
 		driver.quit();
 	}
 
+	@Test
+	public void loginsSuccessfully() {
+		assertThat(loginPage.isLoaded(), is(true));
+
+		var userName = config.getProperty("User.Name");
+		var userPassword = config.getProperty("User.Password");
+		loginPage.login(userName, userPassword);
+
+		new WebDriverWait(driver, 3).until(driver -> !loginPage.isLoaded());
+		wait(2);
+	}
+
 	private static Properties config;
 	private static WebDriver driver;
+	private static LoginPage loginPage;
 
 	private static Properties getConfig() {
 		try (InputStream inputStream = LoginTest.class.getClassLoader().getResourceAsStream("config.properties")) {
@@ -40,5 +59,13 @@ public class LoginTest {
 		driver.get(config.getProperty("LoginPage.Url"));
 
 		return driver;
+	}
+	
+	private static void wait(int seconds) {
+		try {
+			TimeUnit.SECONDS.sleep(seconds);
+		} catch (InterruptedException e) {
+			throw new IllegalStateException(e);
+		}
 	}
 }
