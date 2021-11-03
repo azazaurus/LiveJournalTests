@@ -13,6 +13,10 @@ import static org.hamcrest.MatcherAssert.*;
 import static org.hamcrest.Matchers.*;
 
 public class LoginTest {
+	private static Properties config;
+	private static WebDriver driver;
+	private static LoginPage loginPage;
+
 	@BeforeAll
 	public static void setUp() {
 		config = getConfig();
@@ -34,12 +38,7 @@ public class LoginTest {
 		loginPage.login(userName, userPassword);
 
 		new WebDriverWait(driver, 3).until(driver -> !loginPage.isLoaded());
-		wait(2);
 	}
-
-	private static Properties config;
-	private static WebDriver driver;
-	private static LoginPage loginPage;
 
 	private static Properties getConfig() {
 		try (InputStream inputStream = LoginTest.class.getClassLoader().getResourceAsStream("config.properties")) {
@@ -60,7 +59,7 @@ public class LoginTest {
 
 		return driver;
 	}
-	
+
 	private static void wait(int seconds) {
 		try {
 			TimeUnit.SECONDS.sleep(seconds);

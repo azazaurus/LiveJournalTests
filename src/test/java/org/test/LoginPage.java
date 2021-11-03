@@ -42,6 +42,6 @@ public class LoginPage {
 	@FindBy(xpath = "//input[@id='lj_loginwidget_password']")
 	private WebElement passwordInput;
 
-	@FindBy(xpath = "//input[@id='user']/ancestor::form/*[@name='action:login']")
+	@FindBy(xpath = userNameInputXPath + "/ancestor::form/*[@name='action:login']")
 	private WebElement loginButton;
 }
