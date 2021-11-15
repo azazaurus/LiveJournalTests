@@ -13,6 +13,7 @@ public abstract class TestBase {
 	protected static LoginPage loginPage;
 
 	@BeforeAll
+	@Order(1)
 	public static void setUp() {
 		config = getConfig();
 		driver = initializeWebDriver();
