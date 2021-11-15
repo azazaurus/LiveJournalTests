@@ -1,19 +1,16 @@
-package org.test;
+package org.test.helpers;
 
 import org.openqa.selenium.*;
 import org.openqa.selenium.support.*;
+import org.test.*;
 
-public class LoginPage {
-	public WebDriver driver;
-
-	public LoginPage(WebDriver driver) {
-		this.driver = driver;
-
-		PageFactory.initElements(driver, this);
+public class LoginHelper extends HelperBase {
+	public LoginHelper(ApplicationManager app) {
+		super(app);
 	}
 
 	public boolean isLoaded() {
-		return !driver.findElements(By.xpath(userNameInputXPath)).isEmpty();
+		return !app.driver.findElements(By.xpath(userNameInputXPath)).isEmpty();
 	}
 
 	public void inputUserName(String userName) {
@@ -44,4 +41,7 @@ public class LoginPage {
 
 	@FindBy(xpath = userNameInputXPath + "/ancestor::form/*[@name='action:login']")
 	private WebElement loginButton;
+
+	@FindBy(xpath = "//span[@class='s-header-item-post--long']")
+	private WebElement addNewPostButton;
 }
