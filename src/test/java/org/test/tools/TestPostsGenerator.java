@@ -1,25 +1,22 @@
 package org.test.tools;
 
+import com.fasterxml.jackson.databind.*;
+import org.test.data.*;
+
+import java.io.*;
 import java.util.*;
 
 public abstract class TestPostsGenerator {
 	private static final Random random = new Random();
+	private static final ObjectMapper jsonSerializer = new ObjectMapper();
 
 	public static void main(String[] args) {
 		var outputFileName = args[0];
 		var postsCount = Integer.parseInt(args[1]);
 
 		var posts = generatePosts(postsCount);
-	}
 
-	private static class Post {
-		public final String title;
-		public final String text;
-
-		private Post(String title, String text) {
-			this.title = title;
-			this.text = text;
-		}
+		writeToJsonFile(posts, outputFileName);
 	}
 
 	private static Collection<Post> generatePosts(int count) {
@@ -76,5 +73,13 @@ public abstract class TestPostsGenerator {
 
 	private static boolean generateBoolean(double trueValueProbability) {
 		return random.nextDouble() <= trueValueProbability;
+	}
+
+	private static <T> void writeToJsonFile(T object, String fileName) {
+		try {
+			jsonSerializer.writeValue(new File(fileName), object);
+		} catch (IOException e) {
+			throw new IllegalStateException(e);
+		}
 	}
 }
