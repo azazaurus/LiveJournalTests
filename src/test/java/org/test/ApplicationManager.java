@@ -9,23 +9,32 @@ import java.io.*;
 import java.util.*;
 import java.util.concurrent.*;
 
-public class ApplicationManager {
+public class ApplicationManager implements AutoCloseable {
+	private static ThreadLocal<ApplicationManager> app = new ThreadLocal<>();
 	public final Properties config;
 	public final WebDriver driver;
 
 	public final NavigationHelper navigation;
 	public final LoginHelper login;
-	public final SiteHelper site;
+	public final PostHelper post;
 
-	public ApplicationManager() {
+	private ApplicationManager() {
 		config = getConfig();
 		driver = initializeWebDriver(config);
 
 		navigation = new NavigationHelper(this, config.getProperty("BaseUrl"));
 		login = new LoginHelper(this);
-		site = new SiteHelper(this);
+		post = new PostHelper(this);
 	}
 
+	public static ApplicationManager getInstance() {
+		if (app.get()==null) {
+			ApplicationManager newInstance = new ApplicationManager();
+			newInstance.navigation.goToMainPage();
+			app.set(newInstance);
+		}
+		return app.get();
+	}
 	public void wait(int seconds) {
 		try {
 			TimeUnit.SECONDS.sleep(seconds);
@@ -55,5 +64,14 @@ public class ApplicationManager {
 		driver.manage().window().maximize();
 
 		return driver;
+	}
+
+	@Override
+	public void close() throws Exception {
+		try {
+			driver.quit();
+		} catch (Exception e) {
+			//ignore
+		}
 	}
 }

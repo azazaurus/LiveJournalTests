@@ -4,10 +4,12 @@ import org.junit.jupiter.api.*;
 import org.openqa.selenium.support.ui.*;
 
 public class LoggedInTestBase extends TestBase {
-
 	@BeforeEach
 	@Order(10)
 	public void login() {
+		if (app.login.isLoggedIn())
+			return;
+
 		app.navigation.goToLoginPage();
 
 		var userName = app.config.getProperty("User.Name");

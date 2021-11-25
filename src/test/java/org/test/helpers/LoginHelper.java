@@ -31,6 +31,11 @@ public class LoginHelper extends HelperBase {
 		clickLogin();
 	}
 
+	public boolean isLoggedIn() {
+		app.navigation.goToMainPage();
+		return app.driver.findElements(By.xpath("//*[contains(@class, 's-header-item__link--login')]")).isEmpty();
+	}
+
 	private static final String userNameInputXPath = "//input[@id='user']";
 
 	@FindBy(xpath = userNameInputXPath)

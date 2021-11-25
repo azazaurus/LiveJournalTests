@@ -9,6 +9,9 @@ import static org.hamcrest.Matchers.*;
 public class LoginTest extends TestBase {
 	@Test
 	public void loginsSuccessfully() {
+		if (app.login.isLoggedIn())
+			return;
+
 		app.navigation.goToLoginPage();
 		assertThat(app.login.isLoaded(), is(true));
 

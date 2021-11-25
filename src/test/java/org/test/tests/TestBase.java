@@ -9,11 +9,7 @@ public abstract class TestBase {
 	@BeforeEach
 	@Order(1)
 	public void setUp() {
-		app = new ApplicationManager();
+		app = ApplicationManager.getInstance();
 	}
 
-	@AfterEach
-	public void tearDown() {
-		app.stop();
-	}
 }
