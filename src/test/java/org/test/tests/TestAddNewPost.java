@@ -1,19 +1,41 @@
 package org.test.tests;
 
-import org.junit.jupiter.api.*;
+import com.fasterxml.jackson.core.type.*;
+import com.fasterxml.jackson.databind.*;
+import org.junit.jupiter.params.*;
+import org.junit.jupiter.params.provider.*;
 import org.test.model.*;
+
+import java.io.*;
+import java.util.*;
+import java.util.stream.*;
 
 import static org.hamcrest.MatcherAssert.*;
 import static org.hamcrest.Matchers.*;
 
 public class TestAddNewPost extends LoggedInTestBase {
-	@Test
-	public void addsNewPost() {
+	@ParameterizedTest
+	@MethodSource("addsNewPost_testCaseSource")
+	public void addsNewPost(PostData expectedPost) {
 		assertThat(app.login.isLoggedIn(), is(true));
-		PostData original = new PostData("New test post!", "If you see this - it`s working");
-		app.post.addNewPost(original.header, original.body);
+
+		app.post.addNewPost(expectedPost.header, expectedPost.body);
 		app.post.openLastCreatedPost();
-		PostData newPostData = app.post.GetCreatedPostData();
-		assertThat(original, is(samePropertyValuesAs(newPostData)));
+
+		PostData actualPost = app.post.GetCreatedPostData();
+		assertThat(actualPost, is(samePropertyValuesAs(expectedPost)));
+	}
+
+	public static Stream<Arguments> addsNewPost_testCaseSource() {
+		var jsonSerializer = new ObjectMapper();
+		var postsJson = LoggedInTestBase.class.getClassLoader().getResourceAsStream("test-posts.json");
+		Collection<PostData> posts;
+		try {
+			posts = jsonSerializer.readValue(postsJson, new TypeReference<>() { });
+		} catch (IOException e) {
+			throw new IllegalStateException(e);
+		}
+
+		return posts.stream().map(Arguments::of);
 	}
 }
