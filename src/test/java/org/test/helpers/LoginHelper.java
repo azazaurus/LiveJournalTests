@@ -32,6 +32,14 @@ public class LoginHelper extends HelperBase {
 	}
 
 	public void login(String userName, String password) {
+		if (isLoggedIn()) {
+			if (isLoggedIn(userName))
+				return;
+
+			logout();
+		}
+
+		app.navigation.goToLoginPage();
 		inputUserName(userName);
 		inputPassword(password);
 		clickLogin();
