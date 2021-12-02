@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<settings>
+	<chrome-driver>
+		<path>C:\Program Files (x86)\ChromeDriver\chromedriver.exe</path>
+	</chrome-driver>
+	<base-url>https://www.livejournal.com</base-url>
+	<main-page-url>/</main-page-url>
+	<login-page-url>/login.bml</login-page-url>
+	<add-new-post-page-url>/post</add-new-post-page-url>
+	<my-published-posts-page-url>/post/list?tab=posted</my-published-posts-page-url>
+	<user>
+		<name></name>
+		<password></password>
+	</user>
+	<invalid-user>
+		<name></name>
+		<password></password>
+	</invalid-user>
+</settings>
