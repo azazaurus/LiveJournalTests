@@ -6,6 +6,7 @@ import org.test.*;
 
 public class NavigationHelper extends HelperBase {
 	private final String baseUrl;
+	private String lastUrl;
 
 	public NavigationHelper(ApplicationManager app, String baseUrl) {
 		super(app);
@@ -33,6 +34,10 @@ public class NavigationHelper extends HelperBase {
 
 	private void goTo(String pageUrlPropertyKey) {
 		String pageUrl = app.config.getProperty(pageUrlPropertyKey);
+		if (pageUrl.equals(lastUrl))
+			return;
+
 		app.driver.get(baseUrl + pageUrl);
+		lastUrl = pageUrl;
 	}
 }
