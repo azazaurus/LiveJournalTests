@@ -1,6 +1,5 @@
 package org.test.helpers;
 
-import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.*;
 import org.test.*;
 
@@ -28,8 +27,7 @@ public class NavigationHelper extends HelperBase {
 
 	public void goToMyPublishedPostsPage() {
 		goTo("MyPublishedPostsPage.Url");
-		new WebDriverWait(app.driver, 3)
-			.until(driver -> !driver.findElements(By.xpath("(//h3[@class='_10m']/a)[1]")).isEmpty());
+		new WebDriverWait(app.driver, 3).until(driver -> app.post.isPostsPageLoaded());
 	}
 
 	private void goTo(String pageUrlPropertyKey) {

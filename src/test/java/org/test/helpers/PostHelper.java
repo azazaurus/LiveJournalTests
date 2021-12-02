@@ -56,6 +56,10 @@ public class PostHelper extends HelperBase {
 			.until(driver -> !driver.getCurrentUrl().endsWith("html"));
 	}
 
+	public boolean isPostsPageLoaded() {
+		return !app.driver.findElements(By.xpath(newAddedPostLinkXPath)).isEmpty();
+	}
+
 	@FindBy(xpath = "(//span[@class='_10t'])[1]")
 	private WebElement openPostForEditingPageButton;
 
@@ -67,7 +71,8 @@ public class PostHelper extends HelperBase {
 	@FindBy(xpath = confirmDeletionButtonXPath)
 	private WebElement confirmDeletionButton;
 
-	@FindBy(xpath = "(//h3[@class='_10m']/a)[1]")
+	private final String newAddedPostLinkXPath = "//a[text()='Опубликовать пост']";
+	@FindBy(xpath = newAddedPostLinkXPath)
 	private WebElement newAddedPostLink;
 
 	@FindBy(xpath = "//button[@class='_11c _11e _11m _11r _11s']")
