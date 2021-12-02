@@ -7,7 +7,7 @@ import static org.hamcrest.MatcherAssert.*;
 import static org.hamcrest.Matchers.*;
 
 
-public class DeletePostTest extends LoggedInTestBase {
+public class DeletePostTest extends AuthBase {
 	@Test
 	public void deletesPost() {
 		app.post.openLastCreatedPost();

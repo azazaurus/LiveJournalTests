@@ -13,7 +13,7 @@ import java.util.stream.*;
 import static org.hamcrest.MatcherAssert.*;
 import static org.hamcrest.Matchers.*;
 
-public class TestAddNewPost extends LoggedInTestBase {
+public class TestAddNewPost extends AuthBase {
 	@ParameterizedTest
 	@MethodSource("addsNewPost_testCaseSource")
 	public void addsNewPost(PostData expectedPost) {
@@ -28,7 +28,7 @@ public class TestAddNewPost extends LoggedInTestBase {
 
 	public static Stream<Arguments> addsNewPost_testCaseSource() {
 		var jsonSerializer = new ObjectMapper();
-		var postsJson = LoggedInTestBase.class.getClassLoader().getResourceAsStream("test-posts.json");
+		var postsJson = AuthBase.class.getClassLoader().getResourceAsStream("test-posts.json");
 		Collection<PostData> posts;
 		try {
 			posts = jsonSerializer.readValue(postsJson, new TypeReference<>() { });

@@ -30,7 +30,6 @@ public class ApplicationManager implements AutoCloseable {
 	public static ApplicationManager getInstance() {
 		if (app.get()==null) {
 			ApplicationManager newInstance = new ApplicationManager();
-			newInstance.navigation.goToMainPage();
 			app.set(newInstance);
 		}
 		return app.get();

@@ -3,15 +3,9 @@ package org.test.tests;
 import org.junit.jupiter.api.*;
 import org.openqa.selenium.support.ui.*;
 
-public class LoggedInTestBase extends TestBase {
+public class AuthBase extends TestBase {
 	@BeforeEach
-	@Order(10)
 	public void login() {
-		if (app.login.isLoggedIn())
-			return;
-
-		app.navigation.goToLoginPage();
-
 		var userName = app.config.getProperty("User.Name");
 		var userPassword = app.config.getProperty("User.Password");
 		app.login.login(userName, userPassword);

@@ -7,9 +7,9 @@ public abstract class TestBase {
 	protected ApplicationManager app;
 
 	@BeforeEach
-	@Order(1)
 	public void setUp() {
 		app = ApplicationManager.getInstance();
+		app.navigation.goToMainPage();
 	}
 
 }
