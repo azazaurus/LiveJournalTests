@@ -2,27 +2,26 @@ package org.test.tests;
 
 import org.junit.jupiter.api.*;
 import org.openqa.selenium.support.ui.*;
+import org.test.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 public class LoginTest extends TestBase {
 	@Test
 	public void loginWithValidData() {
-		var userName = app.config.getProperty("User.Name");
-		var userPassword = app.config.getProperty("User.Password");
+		var user = Settings.getUser();
 
-		app.login.login(userName, userPassword);
+		app.login.login(user.name, user.password);
 		new WebDriverWait(app.driver, 3).until(driver -> !app.login.isLoaded());
 
-		assertTrue(app.login.isLoggedIn(userName));
+		assertTrue(app.login.isLoggedIn(user.name));
 	}
 
 	@Test
 	public void loginWithInvalidData() {
-		var userName = app.config.getProperty("InvalidUser.Name");
-		var userPassword = app.config.getProperty("InvalidUser.Password");
+		var user = Settings.getInvalidUser();
 
-		app.login.login(userName, userPassword);
+		app.login.login(user.name, user.password);
 
 		assertFalse(app.login.isLoggedIn());
 	}

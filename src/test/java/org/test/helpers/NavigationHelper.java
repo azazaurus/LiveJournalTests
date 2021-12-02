@@ -14,24 +14,23 @@ public class NavigationHelper extends HelperBase {
 	}
 
 	public void goToMainPage() {
-		goTo("MainPage.Url");
+		goTo(Settings.getMainPageUrl());
 	}
 
 	public void goToLoginPage() {
-		goTo("LoginPage.Url");
+		goTo(Settings.getLoginPageUrl());
 	}
 
 	public void goToAddNewPostPage() {
-		goTo("AddNewPostPage.Url");
+		goTo(Settings.getAddNewPostPageUrl());
 	}
 
 	public void goToMyPublishedPostsPage() {
-		goTo("MyPublishedPostsPage.Url");
+		goTo(Settings.getMyPublishedPostsPageUrl());
 		new WebDriverWait(app.driver, 3).until(driver -> app.post.isPostsPageLoaded());
 	}
 
-	private void goTo(String pageUrlPropertyKey) {
-		String pageUrl = app.config.getProperty(pageUrlPropertyKey);
+	private void goTo(String pageUrl) {
 		if (pageUrl.equals(lastUrl))
 			return;
 

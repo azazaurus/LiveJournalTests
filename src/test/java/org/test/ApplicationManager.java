@@ -3,15 +3,11 @@ package org.test;
 import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.*;
 import org.test.helpers.*;
-import org.test.tests.*;
 
-import java.io.*;
-import java.util.*;
 import java.util.concurrent.*;
 
 public class ApplicationManager implements AutoCloseable {
 	private static ThreadLocal<ApplicationManager> app = new ThreadLocal<>();
-	public final Properties config;
 	public final WebDriver driver;
 
 	public final NavigationHelper navigation;
@@ -19,10 +15,9 @@ public class ApplicationManager implements AutoCloseable {
 	public final PostHelper post;
 
 	private ApplicationManager() {
-		config = getConfig();
-		driver = initializeWebDriver(config);
+		driver = initializeWebDriver();
 
-		navigation = new NavigationHelper(this, config.getProperty("BaseUrl"));
+		navigation = new NavigationHelper(this, Settings.getBaseUrl());
 		login = new LoginHelper(this);
 		post = new PostHelper(this);
 	}
@@ -46,18 +41,8 @@ public class ApplicationManager implements AutoCloseable {
 		driver.quit();
 	}
 
-	private static Properties getConfig() {
-		try (InputStream inputStream = LoginTest.class.getClassLoader().getResourceAsStream("config.properties")) {
-			Properties properties = new Properties();
-			properties.load(inputStream);
-			return properties;
-		} catch (IOException e) {
-			throw new IllegalStateException(e);
-		}
-	}
-
-	private static WebDriver initializeWebDriver(Properties config) {
-		System.setProperty("webdriver.chrome.driver", config.getProperty("ChromeDriver.Path"));
+	private static WebDriver initializeWebDriver() {
+		System.setProperty("webdriver.chrome.driver", Settings.getChromeDriverPath());
 		WebDriver driver = new ChromeDriver();
 
 		driver.manage().window().maximize();
