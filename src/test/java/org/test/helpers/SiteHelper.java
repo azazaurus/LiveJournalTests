@@ -12,11 +12,6 @@ public class SiteHelper extends HelperBase {
 		super(app);
 	}
 
-	public boolean isNewPostAdded(String postTitle) {
-		app.navigation.goToMyPublishedPostsPage();
-		return app.driver.findElements(By.xpath("//a[@class='_10m']")).toString().equals(postTitle);
-	}
-
 	//браузер остается на главной странице
 	public boolean isLoggedIn() {
 		app.navigation.goToMainPage();
@@ -33,13 +28,13 @@ public class SiteHelper extends HelperBase {
 		publishButton.click();
 	}
 
-	@FindBy(xpath = "//button[@class='_11c _11e _11m _11r _11s']")
+	@FindBy(xpath = "//span[text()='Опубликовать']")
 	private WebElement publishButton;
 
-	@FindBy(xpath = "//button[@class='_11c _11e _11h _11q _11t _127']")
+	@FindBy(xpath = "//span[text()='Настроить и опубликовать']")
 	private WebElement setAndPublishButton;
 
-	@FindBy(xpath = "//textarea[@class='_xt']")
+	@FindBy(xpath = "//textarea[@placeholder='Заголовок']")
 	private WebElement postTitle;
 
 	@FindBy(xpath = "//div[@class='public-DraftStyleDefault-block public-DraftStyleDefault-ltr']")
